@@ -1,6 +1,8 @@
 package ar.com.ada.hoteltresvagos;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -98,6 +100,37 @@ public class ABM {
         if (domAlternativo != null)
             huesped.setDomicilioAlternativo(domAlternativo);
 
+
+        //vamos a generar una reserva
+
+        Reserva reserva = new Reserva();
+        BigDecimal importeReserva= new BigDecimal(1000);
+
+        reserva.setImporteReserva(importeReserva); //forma 1
+
+        reserva.setImporteTotal(new BigDecimal(3000));// forma 2
+
+        reserva.setImportePagado(new BigDecimal(0));
+
+        reserva.setFechaReserva(new Date()); //fecha actual
+
+        System.out.print("Ingrese la fecha de reserva (dd/mm/yy)");
+
+        Date fechaIngreso=null;
+        DateFormat dFormat= new SimpleDateFormat("dd/mm/yy");
+
+        try{
+            fechaIngreso= dFormat.parse(Teclado.nextLine());
+        
+        } catch (Exception ex){
+            System.out.print("Ingreso una fecha invalida");
+            System.out.print("Vuelva a empezar");
+            return;
+        }
+        reserva.setFechaIngreso(fechaIngreso);//pone fecha del dia
+        reserva.setFechaEgreso(fechaIngreso); //por hhora 1 dia
+        reserva.setTipoEstadoId(100);//el que en mi caso signifique pagado
+        reserva.setHuesped(huesped);//esta es la realcion bidireccional
         
         ABMHuesped.create(huesped);
 
